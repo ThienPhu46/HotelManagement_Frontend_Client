@@ -369,10 +369,7 @@ export default function Booking_Room_LoggedIn() {
                     </div>
                     </div>
                     )}
-                    <div className="room-info-bar">
-                    <div className="bed-info"><span className="bed-icon">🛏️</span><span>{room.bedType}</span></div>
-                    <div className="more-info"><span>Thông tin và hình ảnh phòng</span></div>
-                    </div>
+
                     <div className="room-details">
                     <div className="room-details-left">
                         <h3 className="room-name">{room.title}</h3>
@@ -524,13 +521,7 @@ export default function Booking_Room_LoggedIn() {
           <div className="total-row"><span>Tổng</span><span>{calculateTotal()} VND</span></div>
         </div>
         <button className="next-button" onClick={handleNextStep}>KẾ TIẾP</button>
-        <div className="rating-container">
-          <div className="rating-badge">4.5</div>
-          <div>
-            <div className="rating-text">Xuất sắc</div>
-            <div className="rating-stars">★★★★★ <span>790 đánh giá</span></div>
-          </div>
-        </div>
+
       </div>
     );
   }

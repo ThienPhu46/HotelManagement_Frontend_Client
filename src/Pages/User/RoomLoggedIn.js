@@ -37,7 +37,7 @@ return (
       </div>
             <div className="room-content">
         <div className="room-image">
-          <img src="./Img_User/Img_Room_2.png" alt="Single Room" />
+          <img src="./Img_User/Img_Room_3.png" alt="Single Room" />
         </div>
         <div className="room-details">
           <h2 className="section-title-room">Phòng Đôi (Double Room)</h2>
@@ -55,7 +55,7 @@ return (
       </div>
             <div className="room-content">
         <div className="room-image">
-          <img src="./Img_User/Img_Room_3.png" alt="Single Room" />
+          <img src="./Img_User/Img_Room_2.png" alt="Single Room" />
         </div>
         <div className="room-details">
           <h2 className="section-title-room">Phòng Gia Đình (Family Room)</h2>

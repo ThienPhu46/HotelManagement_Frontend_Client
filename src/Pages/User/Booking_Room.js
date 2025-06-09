@@ -27,10 +27,6 @@ export default function Booking_Room_LoggedIn() {
   const [currentImageIndices, setCurrentImageIndices] = useState({});
   const navigate = useNavigate();
 
-  // --- START: SỬA ĐỔI QUAN TRỌNG ---
-  // Hàm handleBookNow đã được viết lại hoàn toàn.
-  // Giờ đây nó sẽ LUÔN LUÔN hiển thị thông báo và chuyển hướng,
-  // mô phỏng chính xác trạng thái chưa đăng nhập.
   const handleBookNow = () => {
     // 1. Vô hiệu hóa nút để tránh click nhiều lần
     setIsBooking(true); 
@@ -43,7 +39,7 @@ export default function Booking_Room_LoggedIn() {
     
     // (Toàn bộ logic gọi API đặt phòng đã được xóa)
   };
-  // --- END: SỬA ĐỔI QUAN TRỌNG ---
+
 
   useEffect(() => {
     const getAvailableRoomsUrl = () => {
@@ -200,7 +196,6 @@ export default function Booking_Room_LoggedIn() {
   }
 
   // Các hàm render (renderStep1, renderStep2, renderStep3, renderSidebar) giữ nguyên không đổi
-  // ... (bạn có thể giữ nguyên các hàm render như trong file gốc của bạn)
 
   function renderStep1() {
     if (loading) return <div className="step-container"><p>Đang tải dữ liệu...</p></div>;
@@ -247,10 +242,7 @@ export default function Booking_Room_LoggedIn() {
                     </div>
                     </div>
                     )}
-                    <div className="room-info-bar">
-                    <div className="bed-info"><span className="bed-icon">🛏️</span><span>{room.bedType}</span></div>
-                    <div className="more-info"><span>Thông tin và hình ảnh phòng</span></div>
-                    </div>
+
                     <div className="room-details">
                     <div className="room-details-left">
                         <h3 className="room-name">{room.title}</h3>
@@ -402,13 +394,7 @@ export default function Booking_Room_LoggedIn() {
           <div className="total-row"><span>Tổng</span><span>{calculateTotal()} VND</span></div>
         </div>
         <button className="next-button" onClick={handleNextStep}>KẾ TIẾP</button>
-        <div className="rating-container">
-          <div className="rating-badge">4.5</div>
-          <div>
-            <div className="rating-text">Xuất sắc</div>
-            <div className="rating-stars">★★★★★ <span>790 đánh giá</span></div>
-          </div>
-        </div>
+
       </div>
     );
   }
