@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"; // 1. Import useNavigate để điều hướng
 import FooterUser from "../../Components/User/Components_Js/FooterUser"
 import "../../Design_Css/User/EditProfile.css"
 import HeaderUserLogin from "../../Components/User/Components_Js/HeaderUserLogin"
@@ -8,6 +9,11 @@ function EditProfile() {
   const [activeMenuItem, setActiveMenuItem] = useState("")
   const [showPopup, setShowPopup] = useState(false)
 
+  // 2. Tạo state để lưu thông tin người dùng
+  const [displayName, setDisplayName] = useState("");
+  const [userPoints, setUserPoints] = useState(0);
+  const navigate = useNavigate();
+
   useEffect(() => {
     // Set active menu item based on hash when component mounts
     const hash = window.location.hash.replace("#", "")
@@ -16,13 +22,40 @@ function EditProfile() {
     } else {
       setActiveMenuItem("points") // Default active menu item
     }
+
+    // 3. Lấy dữ liệu người dùng từ localStorage
+    const userDataString = localStorage.getItem('currentUser');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      // Cập nhật state với Tên hiển thị và Điểm
+      // Giả sử object user có thuộc tính 'tenHienThi'
+      setDisplayName(userData.tenHienThi || 'Tài khoản'); 
+      
+      // Lưu ý: Điểm của người dùng cũng cần được trả về từ API và lưu vào localStorage
+      // Tạm thời vẫn dùng giá trị cứng nếu chưa có, bạn có thể thay '9999' bằng userData.points
+      setUserPoints(9999); 
+    }
+
   }, [])
+
+  // 4. Thêm hàm xử lý Đăng xuất
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    navigate('/'); // Chuyển về trang chủ
+  };
 
   const handleTabClick = (tab) => {
     setActiveTab(tab)
   }
 
   const handleMenuItemClick = (item) => {
+    // Ngăn chặn hành vi mặc định nếu là nút đăng xuất
+    if (item === 'logout') {
+      handleLogout();
+      return;
+    }
     setActiveMenuItem(item)
     window.location.hash = item
   }
@@ -40,7 +73,8 @@ function EditProfile() {
         <div className="left-container">
           <div className="profile-popup">
             <div className="profile-header">
-              <span className="profile-name">Duy Độ</span>
+              {/* 5. Hiển thị tên động */}
+              <span className="profile-name">{displayName}</span>
               <div className="membership-status">
                 <img src="/Img_User/CoinUser.png" alt="Gold Member" className="gold-icon" />
                 <span>Bạn là thành viên Gold của Debug Hotel</span>
@@ -53,7 +87,8 @@ function EditProfile() {
                 onClick={() => handleMenuItemClick("points")}
               >
                 <img src="/Img_User/$.svg" alt="Points" className="menu-icon" />
-                <span>9999 Điểm</span>
+                {/* 5. Hiển thị điểm động */}
+                <span>{userPoints} Điểm</span>
               </div>
               </a>
               <a href="EditProFilePage">
@@ -74,15 +109,15 @@ function EditProfile() {
                 <span>Lịch sử giao dịch</span>
               </div>
               </a>
-              <a href="/">
+              {/* Sửa lại link Đăng xuất để gọi hàm handleLogout */}
               <div
                 className={`profile-menu-item ${activeMenuItem === "logout" ? "active-menu-item" : ""}`}
                 onClick={() => handleMenuItemClick("logout")}
+                style={{ cursor: 'pointer' }}
               >
                 <img src="/Img_User/logout.svg" alt="Logout" className="menu-icon" />
                 <span>Đăng xuất</span>
               </div>
-              </a>
             </div>
           </div>
         </div>
@@ -102,7 +137,8 @@ function EditProfile() {
                   <div className="coin-icon">
                     <span>G</span>
                   </div>
-                  <span className="points-value">9999 Điểm</span>
+                   {/* 5. Hiển thị điểm động */}
+                  <span className="points-value">{userPoints} Điểm</span>
                 </div>
                 <button className="card-button" onClick={handlePopupToggle}>Thông tin về xu</button>
               </div>
@@ -118,7 +154,7 @@ function EditProfile() {
             </div>
           </div>
 
-          {/* Popup "Thông tin về xu" and "Tìm hiểu cách thức" */}
+          {/* Popup và các phần còn lại giữ nguyên */}
           {showPopup && (
             <div className="popup-overlay">
               <div className="popup-content">

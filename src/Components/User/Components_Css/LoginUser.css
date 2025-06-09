@@ -12,7 +12,8 @@
   flex-direction: column;
   align-items: center;
   width: 500px;
-  height: 460px;
+  /* THAY ĐỔI TỪ height SANG min-height ĐỂ KHUNG TỰ ĐỘNG GIÃN RA KHI CÓ THÔNG BÁO */
+  min-height: 460px;
   background-color: white;
   border-radius: 24px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -163,4 +164,55 @@
   line-height: normal;
   color: var(--Neutral---Mu-trung-tnh-Gray-600, #666);
   margin: 0px;
+}
+/* --- CSS CHO HỘP THÔNG BÁO --- */
+.notification {
+  padding: 12px 15px;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  text-align: center;
+  /* DÒNG NÀY ĐÃ ĐƯỢC XÓA: width: 100%; */
+  box-sizing: border-box;
+}
+
+.notification-error {
+  color: #721c24; /* Màu chữ đậm */
+  background-color: #f8d7da; /* Màu nền nhạt */
+  border-color: #f5c6cb; /* Màu viền */
+}
+
+.notification-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.activation-prompt {
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.activation-prompt p {
+  margin: 0 0 10px 0;
+  color: #d46b08;
+}
+
+.activate-button {
+  background-color: #fa8c16;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.activate-button:hover {
+  background-color: #d46b08;
 }

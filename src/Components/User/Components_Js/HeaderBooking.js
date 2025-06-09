@@ -248,7 +248,7 @@ export default function HeaderBookingRoom({ currentStep, onStepChange }) {
     <div className="app">
       <div className="header-container">
         <img src="./Img_User/Img_BookingRoom_Header.png" alt="Luxury hotel room with mountain view" className="header-image"/>
-        <a href="/HomeLoggedIn">
+        <a href="/">
           <div className="home-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="44" viewBox="0 0 38 44" fill="none"><path d="M-1.09278e-06 22L37.5 0.349367L37.5 43.6506L-1.09278e-06 22Z" fill="#1D3E92" /></svg>
             <span>Trang chủ</span>

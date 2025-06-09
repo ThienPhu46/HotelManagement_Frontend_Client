@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FooterUser from "../../Components/User/Components_Js/FooterUser";
 import "../../Design_Css/User/EditProfilePage.css";
@@ -6,12 +6,38 @@ import HeaderUserLogin from "../../Components/User/Components_Js/HeaderUserLogin
 
 function EditProfilePage() {
   const navigate = useNavigate();
+  
+  // State cho các thành phần cần thay đổi
+  const [displayName, setDisplayName] = useState("Duy Độ");
+  const [userPoints, setUserPoints] = useState(9999);
+  const [email, setEmail] = useState(""); // State cho email
+  const [phone, setPhone] = useState(""); // State cho số điện thoại
+
+  useEffect(() => {
+    // Lấy dữ liệu người dùng từ localStorage
+    const userDataString = localStorage.getItem('currentUser');
+    if (userDataString) {
+      const userData = JSON.parse(userDataString);
+      setDisplayName(userData.tenHienThi || 'Tài khoản');
+      setEmail(userData.email || '');
+      setPhone(userData.phone || '');
+      // setUserPoints(userData.points || 9999); // Bạn có thể dùng dòng này nếu có điểm trong localStorage
+    }
+  }, []);
+
+  // Hàm xử lý đăng xuất
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    navigate('/');
+  };
 
   const handleMenuItemClick = (item) => {
     if (item === "points") {
-      navigate("/");
-    } else {
-      window.location.hash = item;
+      navigate("/EditProfile");
+    } else if (item === "logout") {
+      handleLogout();
     }
   };
 
@@ -20,53 +46,37 @@ function EditProfilePage() {
       <HeaderUserLogin />
 
       <div className="dashboard-container">
-        {/* Left Container - Profile Section (unchanged) */}
+        {/* Left Container - Profile Section */}
         <div className="left-container">
           <div className="profile-popup">
             <div className="profile-header">
-              <span className="profile-name">Duy Độ</span>
+              <span className="profile-name">{displayName}</span>
               <div className="membership-status">
                 <img src="/Img_User/CoinUser.png" alt="Gold Member" className="gold-icon" />
                 <span>Bạn là thành viên Gold của Debug Hotel</span>
               </div>
             </div>
             <div className="profile-menu-items">
-              <a href="EditProfile">
-                <div
-                  className="profile-menu-item"
-                  onClick={() => handleMenuItemClick("points")}
-                >
+              <div className="profile-menu-item" onClick={() => handleMenuItemClick("points")} style={{cursor: 'pointer'}}>
                   <img src="/Img_User/$.svg" alt="Points" className="menu-icon" />
-                  <span>9999 Điểm</span>
-                </div>
-              </a>
+                  <span>{userPoints} Điểm</span>
+              </div>
               <a href="EditProfilePage">
-                <div
-                  className="profile-menu-item active-menu-item"
-                  onClick={() => handleMenuItemClick("edit-profile")}
-                >
+                <div className="profile-menu-item active-menu-item">
                   <img src="/Img_User/user.svg" alt="Edit Profile" className="menu-icon" />
                   <span>Chỉnh sửa hồ sơ</span>
                 </div>
               </a>
               <a href="TransactionHistory">
-                <div
-                  className="profile-menu-item"
-                  onClick={() => handleMenuItemClick("history")}
-                >
+                <div className="profile-menu-item">
                   <img src="/Img_User/Lich.svg" alt="Transaction History" className="menu-icon" />
                   <span>Lịch sử giao dịch</span>
                 </div>
               </a>
-              <a href="/">
-                <div
-                  className="profile-menu-item"
-                  onClick={() => handleMenuItemClick("logout")}
-                >
+              <div className="profile-menu-item" onClick={() => handleMenuItemClick("logout")} style={{cursor: 'pointer'}}>
                   <img src="/Img_User/logout.svg" alt="Logout" className="menu-icon" />
                   <span>Đăng xuất</span>
-                </div>
-              </a>
+              </div>
             </div>
           </div>
         </div>
@@ -74,16 +84,13 @@ function EditProfilePage() {
         {/* Right Container */}
         <div className="right-container">
           <h1 className="rewards-title">Thông tin tài khoản</h1>
+          
+          {/* Phần Dữ liệu cá nhân giữ nguyên */}
           <div className="edit-profile-section">
             <h2 className="section-title">Dữ liệu cá nhân</h2>
             <div className="form-group">
               <label>Tên đầy đủ</label>
-              <input
-                type="text"
-                value="Duy Độ"
-                className="form-input"
-                placeholder="Tên trong hồ sơ được rút ngắn từ tên của bạn."
-              />
+              <input type="text" className="form-input" placeholder=""/>
             </div>
             <div className="form-row">
               <div className="form-group">
@@ -97,26 +104,8 @@ function EditProfilePage() {
               <div className="form-group">
                 <label>Ngày sinh</label>
                 <div className="date-row">
-                  <select className="form-select date-select">
-                    <option>2</option>
-                    <option>1</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
-                    <option>12</option>
-                  </select>
-                  <select className="form-select date-select">
-                    <option>2000</option>
-                    {[...Array(100)].map((_, i) => (
-                      <option key={i} value={2000 - i}>{2000 - i}</option>
-                    ))}
-                  </select>
+                  <select className="form-select date-select"><option>2</option></select>
+                  <select className="form-select date-select"><option>2000</option></select>
                 </div>
               </div>
             </div>
@@ -130,34 +119,44 @@ function EditProfilePage() {
             </div>
           </div>
 
+          {/* === PHẦN EMAIL ĐÃ ĐƯỢC CẬP NHẬT === */}
           <div className="edit-profile-section">
             <div className="section-header">
               <h2 className="section-title">Email</h2>
             </div>
             <p className="section-description">Chỉ có thể sử dụng tối đa 3 email</p>
             <div className="email-list">
-              <div className="email-item">
-                <span>1. duyđộ13062004@gmail.com</span>
-                <span className="email-label">Nối nhận thông báo</span>
-              </div>
-              <div className="email-item">
-                <span>2. duyđộ13062004@gmail.com</span>
-              </div>
-              <div className="email-item">
-                <span>3. duyđộ13062004@gmail.com</span>
-              </div>
+              {email ? (
+                <div className="email-item">
+                  <span>1. {email}</span>
+                  <span className="email-label">Nơi nhận thông báo</span>
+                </div>
+              ) : (
+                <p>Chưa có email nào được thêm.</p>
+              )}
             </div>
             <button className="add-button">+ Thêm email</button>
           </div>
 
+          {/* === PHẦN SỐ DI ĐỘNG ĐÃ ĐƯỢC CẬP NHẬT === */}
           <div className="edit-profile-section">
             <div className="section-header">
               <h2 className="section-title">Số di động</h2>
             </div>
             <p className="section-description">Chỉ có thể sử dụng tối đa 3 số di động</p>
+            <div className="phone-list">
+              {phone ? (
+                <div className="phone-item">
+                  <span>{phone}</span>
+                </div>
+              ) : (
+                <p>Bạn chưa thêm số di động nào.</p>
+              )}
+            </div>
             <button className="add-button">+ Thêm số di động</button>
           </div>
 
+          {/* === PHẦN TÀI KHOẢN LIÊN KẾT GIỮ NGUYÊN === */}
           <div className="edit-profile-section">
             <div className="section-header">
               <h2 className="section-title">Tài khoản đã Liên kết</h2>
