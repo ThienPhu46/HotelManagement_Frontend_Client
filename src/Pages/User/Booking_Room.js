@@ -96,14 +96,21 @@ export default function Booking_Room_LoggedIn() {
         mappedRoomData.forEach(room => { initialImageIndices[room.id] = 0; });
         setCurrentImageIndices(initialImageIndices);
         
-        const mappedServiceData = servicesResult.data.map((service, index) => ({
-            id: service.maDichVu,
-            title: service.tenDichVu,
-            price: service.gia,
-            priceText: `${new Intl.NumberFormat("vi-VN").format(service.gia)} VND`,
-            image: `./Img_User/Img_Service_${(index % 2) + 1}.png`,
-            priceNote: `(${new Intl.NumberFormat("vi-VN").format(service.gia)} VND mỗi dịch vụ)`
-        }));
+const serviceImages = [
+    './Img_User/Img_Service_1.png',
+    './Img_User/Img_Service_2.png',
+    './Img_User/Img_Service_3.png'
+   
+];
+
+const mappedServiceData = servicesResult.data.map((service, index) => ({
+    id: service.maDichVu,
+    title: service.tenDichVu,
+    price: service.gia,
+    priceText: `${new Intl.NumberFormat("vi-VN").format(service.gia)} VND`,
+    image: serviceImages[index % serviceImages.length], // Gán ảnh theo vòng lặp
+    priceNote: `(${new Intl.NumberFormat("vi-VN").format(service.gia)} VND mỗi dịch vụ)`
+}));
         setAvailableServices(mappedServiceData);
 
       } catch (e) {
