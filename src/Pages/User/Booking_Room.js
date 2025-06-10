@@ -42,13 +42,13 @@ export default function Booking_Room_LoggedIn() {
 
 
   useEffect(() => {
-    const getAvailableRoomsUrl = () => {
-        const url = new URL("http://localhost:5282/api/rooms");
-        url.searchParams.append("trangThai", "Trống");
-        url.searchParams.append("tinhTrang", "Đã dọn dẹp");
-        url.searchParams.append("pageSize", "100"); 
-        return url.toString();
-    };
+  const getAvailableRoomsUrl = () => {
+    const url = new URL(`${process.env.REACT_APP_API_URL}/api/rooms`);
+    url.searchParams.append("trangThai", "Trống");
+    url.searchParams.append("tinhTrang", "Đã dọn dẹp");
+    url.searchParams.append("pageSize", "100"); 
+    return url.toString();
+  };
 
     const fetchInitialData = async () => {
       try {
@@ -56,8 +56,8 @@ export default function Booking_Room_LoggedIn() {
         setError(null);
 
         const [roomTypesResponse, servicesResponse, availableRoomsResponse] = await Promise.all([
-          fetch("http://localhost:5282/api/room-types?pageSize=100"),
-          fetch("http://localhost:5282/api/services?pageSize=100"),
+        fetch(`${process.env.REACT_APP_API_URL}/api/room-types?pageSize=100`),
+        fetch(`${process.env.REACT_APP_API_URL}/api/services?pageSize=100`),
           fetch(getAvailableRoomsUrl())
         ]);
 

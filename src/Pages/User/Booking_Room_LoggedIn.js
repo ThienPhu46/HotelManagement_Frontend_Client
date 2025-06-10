@@ -33,7 +33,7 @@ export default function Booking_Room_LoggedIn() {
   // --- THAY ĐỔI: ĐÃ XÓA STATE 'customerInfo' ---
 
   const getAvailableRoomsUrl = () => {
-    const url = new URL("http://localhost:5282/api/rooms");
+    const url = new URL(`${process.env.REACT_APP_API_URL}/api/rooms`);
     url.searchParams.append("trangThai", "Trống");
     url.searchParams.append("tinhTrang", "Đã dọn dẹp");
     url.searchParams.append("pageSize", "100"); 
@@ -47,8 +47,8 @@ export default function Booking_Room_LoggedIn() {
         setError(null);
 
         const [roomTypesResponse, servicesResponse, availableRoomsResponse] = await Promise.all([
-          fetch("http://localhost:5282/api/room-types?pageSize=100"),
-          fetch("http://localhost:5282/api/services?pageSize=100"),
+        fetch(`${process.env.REACT_APP_API_URL}/api/room-types?pageSize=100`),
+        fetch(`${process.env.REACT_APP_API_URL}/api/services?pageSize=100`),
           fetch(getAvailableRoomsUrl())
         ]);
 
@@ -190,11 +190,11 @@ const mappedServiceData = servicesResult.data.map((service, index) => ({
                 loaiTinhTien: "Nightly",
             };
 
-            return fetch("http://localhost:5282/api/bookings", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bookingPayload)
-            });
+      return fetch(`${process.env.REACT_APP_API_URL}/api/bookings`, {
+          method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookingPayload)
+});
         });
         
         const bookingResponses = await Promise.all(bookingPromises);
@@ -211,10 +211,10 @@ const mappedServiceData = servicesResult.data.map((service, index) => ({
 
         if (createdBookings.length > 0) {
             const confirmationPromises = createdBookings.map(bookingId => {
-                return fetch(`http://localhost:5282/api/bookings/${bookingId}/confirm`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                });
+        return fetch(`${process.env.REACT_APP_API_URL}/api/bookings/${bookingId}/confirm`, {
+        method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+});
             });
             await Promise.all(confirmationPromises);
         }
@@ -235,11 +235,11 @@ const mappedServiceData = servicesResult.data.map((service, index) => ({
                     ngaySuDung: new Date().toISOString()
                 };
 
-                return fetch("http://localhost:5282/api/bookingservice", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(servicePayload)
-                });
+return fetch(`${process.env.REACT_APP_API_URL}/api/bookingservice`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(servicePayload)
+});
             }).filter(p => p !== null);
 
             await Promise.all(servicePromises);

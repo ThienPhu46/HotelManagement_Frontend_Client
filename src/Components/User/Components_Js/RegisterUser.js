@@ -21,8 +21,8 @@ function RegisterUser() {
   const navigate = useNavigate();
   const location = useLocation();
   
-  const apiBaseUrl = "http://localhost:5282/api/auth";
-  const accountsApiBaseUrl = "http://localhost:5282/api/accounts";
+const apiBaseUrl = `${process.env.REACT_APP_API_URL}/api/auth`;
+const accountsApiBaseUrl = `${process.env.REACT_APP_API_URL}/api/accounts`;
 
   // Hàm gửi OTP
   const sendOtp = async () => {
